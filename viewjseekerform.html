@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+		<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<form>
+	<label>Enter fullname</label><input  class="form-control" type="text" id="fullname" name="fullname"><br>
+	<label>Enter address</label><input  class="form-control" type="text" id="address" name="address"><br>
+	<label>Enter city</label><input  class="form-control" type="text" id="city" name="city"><br>
+	<label>Enter state</label><input  class="form-control" type="text" id="state" name="state"><br>
+	<label>Enter pincode</label><input  class="form-control" type="text" id="pincode" name="pincode"><br>
+	<label>Enter country</label><input  class="form-control" type="text" id="country" name="country"><br>
+	<label>Enter phone number</label><input  class="form-control" type="text" id="phone number" name="phone number"><br>
+	<label>Enter email</label><input  class="form-control" type="email" id="email" name="email"><br>
+	<label>Enter suggestions</label><input  class="form-control" type="text" id="suggestions" name="suggestions"><br>
+	<button type="button" id="btn">Submit</button>
+</form>
+
+
+<script type="text/javascript">
+	$(function(){
+		$('#btn').click(function(){
+
+			var a=document.getElementById('fullname').value;
+			var b=document.getElementById('address').value;
+			var c=document.getElementById('city').value;
+			var d=document.getElementById('state').value;
+			var e=document.getElementById('pincode').value;
+			var f=document.getElementById('country').value;
+			var g=document.getElementById('email').value;
+			var h=document.getElementById('suggestions').value;
+			alert(a+b+c+d+e+f+g+h)
+			$.ajax({
+				url:'insertjseekerform.php',
+				type:'post',
+				data:{
+					"fullname":a,
+					"address":b,
+					"city":c,
+					"state":d,
+					"pincode":e,
+					"country":f,
+					"email":g,
+					"suggestions":h
+				},
+				success:function(){
+					alert('row added successfully')
+				},
+				error:function(){
+					alert('something went wrong')
+				}
+			})
+		})
+	})
+</script>
+</body>
+</html>

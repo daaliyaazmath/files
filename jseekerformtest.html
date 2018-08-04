@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<button>Click me</button>
+
+<table class="table" id="history_display">
+    <thead>
+     <th>id</th>
+      <th>fullame</th>
+      <th>address</th>
+      <th>city</th>
+      <th>state</th>
+      <th>pincode</th>
+      <th>country</th>
+      <th>email</th>
+      <th>suggestions</th>
+      <th>Action</th>
+    </thead>
+</table>
+<div class="container">
+
+  
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Details</h4>
+        </div>
+        <div class="modal-body">
+        	<label>id</label><input  class="form-control"  type="text" id="id" name="id"><br>
+          <label> fullname</label><input  class="form-control" disabled type="text" id="fullname" name="fullname"><br>
+          <label> address</label><input  class="form-control" disabled type="text" id="address" name="address"><br>
+          <label> city</label><input  class="form-control" disabled type="text" id="city" name="city"><br>
+          <label> state</label><input  class="form-control" disabled type="text" id="state" name="state"><br>
+          <label> pincode</label><input  class="form-control" disabled type="text" id="pincode" name="pincode"><br>
+          <label> country</label><input  class="form-control" disabled type="text" id="country" name="country"><br>
+	<label> email</label><input  class="form-control" disabled type="email" id="email" name="email"><br>
+	<label> suggestions</label><input  class="form-control" disabled type="text" id="suggestions" name="suggestions"><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+<script type="text/javascript">
+	function model(id){
+		alert(id)
+		$.ajax({
+				url:'viewjseekerform.php',
+				type:'post',
+				data:{
+					"id":id
+				},
+				success: function(data){
+					alert('hello')
+					var obj=JSON.parse(data);
+                       $.each(obj,function(index,value){
+                       	alert('hii')
+					 $('#id').val(value.id);
+					 $('#fullname').val(value.fullname);
+					 $('#address').val(value.address);
+					 $('#city').val(value.city);
+					 $('#state').val(value.state);
+					 $('#pincode').val(value.pincode);
+					 $('#country').val(value.country);
+					 $('#email').val(value.email);
+					 $('#suggestions').val(value.suggestions);
+					$('#myModal').modal('show');
+				});
+				},
+				error:function(){
+					alert('not right')
+				}
+			})
+	}
+	function call(id){
+		alert(id);
+		$.ajax({
+				url:'deletejseekerform.php',
+				type:'post',
+				data:{
+					"id":id
+				},
+				success: function(response){
+					alert('Api called');
+				},
+				error:function(){
+					alert('not right')
+				}
+			})
+	}
+	$(function(){
+		$('button').click(function(){
+			$.ajax({
+				url:'indexjseekerform.php',
+				type:'get',
+				data:{
+
+				},
+				success: function(response){
+					
+					var obj=JSON.parse(response);
+
+                        var table_content=""
+                        $('#history_display').find( 'tr:not(:first)' ).remove();
+                        $.each(obj,function(index,value){
+                            table_content+="<tr>";
+                            table_content+="<td>"+value.id+"</td>";
+                            table_content+="<td>"+value.fullname+"</td>";
+                            table_content+="<td>"+value.address+"</td>";
+                            table_content+="<td>"+value.city+"</td>";
+                            table_content+="<td>"+value.state+"</td>";
+                            table_content+="<td>"+value.pincode+"</td>";
+                            table_content+="<td>"+value.country+"</td>";
+                            table_content+="<td>"+value.email+"</td>";
+                            table_content+="<td>"+value.suggestions+"</td>";
+  table_content+="<td><a class='btn btn-primary' href='editjseekerform.php?id="+value.id+"'>Edit</a><button class='btn btn-danger' onclick='call("+value.id+")'>Delete</button><button type='button' class='btn btn-info' onclick='model("+value.id+")'>View</button></td>";
+                            table_content+="</tr>";
+                        });
+                        $("#history_display").append(table_content);
+				},
+				error: function(){
+					alert('Something went wrong');
+				}
+			})
+		})
+		
+	})
+
+</script>
+</body>
+</html>

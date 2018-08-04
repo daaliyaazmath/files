@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<button>Click me</button>
+
+<table class="table" id="history_display">
+    <thead>
+     <th>ID</th>
+      <th>Name</th>
+      <th>email</th>
+      <th>Password</th>
+      <th>role</th>
+      <th>Action</th>
+    </thead>
+</table>
+<div class="container">
+
+  
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Details</h4>
+        </div>
+        <div class="modal-body">
+        	<label>id</label><input  class="form-control"  type="text" id="eid" name="eid"><br>
+          <label> Name</label><input  class="form-control" disabled type="text" id="ename" name="ename"><br>
+	<label> Email</label><input  class="form-control" disabled type="email" id="email" name="email"><br>
+	<label> Password</label><input  class="form-control" disabled type="password" id="password" name="password"><br>
+	<label> role</label><input  class="form-control" disabled type="text" id="role" name="role"><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+<script type="text/javascript">
+	function model(eid){
+		alert(eid)
+		$.ajax({
+				url:'view.php',
+				type:'post',
+				data:{
+					"eid":eid
+				},
+				success: function(data){
+					alert('hello')
+					var obj=JSON.parse(data);
+                       $.each(obj,function(index,value){
+                       	alert('hii')
+					// $('#eid').val(value.eid);
+					 $('#ename').val(value.ename);
+					 $('#email').val(value.email);
+					 $('#password').val(value.password);
+					 $('role').val(value.role);
+					$('#myModal').modal('show');
+				});
+				},
+				error:function(){
+					alert('not right')
+				}
+			})
+	}
+	function call(eid){
+		alert(eid);
+		$.ajax({
+				url:'deleteemployee.php',
+				type:'post',
+				data:{
+					"eid":eid
+				},
+				success: function(response){
+					alert('Api called');
+				},
+				error:function(){
+					alert('not right')
+				}
+			})
+	}
+	$(function(){
+		$('button').click(function(){
+			$.ajax({
+				url:'indexviewemployee.php',
+				type:'get',
+				data:{
+
+				},
+				success: function(response){
+					
+					var obj=JSON.parse(response);
+
+                        var table_content=""
+                        $('#history_display').find( 'tr:not(:first)' ).remove();
+                        $.each(obj,function(index,value){
+                            table_content+="<tr>";
+                            table_content+="<td>"+value.eid+"</td>";
+                            table_content+="<td>"+value.ename+"</td>";
+                            table_content+="<td>"+value.email+"</td>";
+                            table_content+="<td>"+value.password+"</td>";
+                            table_content+="<td>"+value.role+"</td>";
+  table_content+="<td><a class='btn btn-primary' href='editemployee.php?eid="+value.eid+"'>Edit</a><button class='btn btn-danger' onclick='call("+value.eid+")'>Delete</button><button type='button' class='btn btn-info' onclick='model("+value.eid+")'>View</button></td>";
+                            table_content+="</tr>";
+                        });
+                        $("#history_display").append(table_content);
+				},
+				error: function(){
+					alert('Something went wrong');
+				}
+			})
+		})
+		
+	})
+
+</script>
+</body>
+</html>

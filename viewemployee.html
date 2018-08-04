@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+		<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<form>
+	<label>Enter Name</label><input  class="form-control" type="text" id="ename" name="ename"><br>
+	<label>Enter email</label><input  class="form-control" type="email" id="email" name="email"><br>
+	<label>Enter password</label><input  class="form-control" type="password" id="password" name="password"><br>
+	<label>Enter role</label><input  class="form-control" type="text" id="role" name="role"><br>
+	<button type="button" id="btn">Submit</button>
+</form>
+
+
+<script type="text/javascript">
+	$(function(){
+		$('#btn').click(function(){
+
+			var a=document.getElementById('ename').value;
+			var b=document.getElementById('email').value;
+			var c=document.getElementById('password').value;
+			var d=document.getElementById('role').value;
+			alert(a+b+c+d)
+			$.ajax({
+				url:'insertviewemployee.php',
+				type:'post',
+				data:{
+					"ename":a,
+					"email":b,
+					"password":c,
+					"role":d
+				},
+				success:function(){
+					alert('row added successfully')
+				},
+				error:function(){
+					alert('something went wrong')
+				}
+			})
+		})
+	})
+</script>
+</body>
+</html>
